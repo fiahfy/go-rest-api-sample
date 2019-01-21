@@ -5,12 +5,15 @@ import (
 	"net/http"
 
 	"github.com/fiahfy/go-todo-rest-api/interfaces"
+	"github.com/fiahfy/go-todo-rest-api/registry"
 )
 
 func main() {
-	r := interfaces.NewRouter()
+	r := registry.NewRegistry()
+	h := r.NewAppHandler()
 
-	err := http.ListenAndServe(":8080", r)
+	app := interfaces.NewRouter(h)
+	err := http.ListenAndServe(":8080", app)
 
 	if err != nil {
 		log.Fatalf("Could not start server: %s\n", err.Error())

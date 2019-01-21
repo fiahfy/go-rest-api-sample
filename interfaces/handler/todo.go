@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/fiahfy/go-todo-rest-api/app/usecase"
+	"github.com/fiahfy/go-todo-rest-api/application/usecase"
 	"github.com/fiahfy/go-todo-rest-api/interfaces/httputils"
 )
 
