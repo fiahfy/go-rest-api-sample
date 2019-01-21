@@ -1,15 +1,14 @@
 package main
 
 import (
-	"go-todo-rest-api/app"
 	"log"
 	"net/http"
+
+	"github.com/fiahfy/go-todo-rest-api/interfaces"
 )
 
 func main() {
-	app.InitStore()
-
-	r := app.NewRouter()
+	r := interfaces.NewRouter()
 
 	err := http.ListenAndServe(":8080", r)
 

@@ -3,9 +3,9 @@ services:
   app:
     build: ./
     container_name: go-todo-rest-api
-    working_dir: /go/src/go-todo-rest-api
+    working_dir: /go/src/github.com/fiahfy/go-todo-rest-api
     volumes:
-      - ./:/go/src/go-todo-rest-api
+      - ./:/go/src/github.com/fiahfy/go-todo-rest-api
     ports:
       - "8080:8080"
     # environment:
