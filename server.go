@@ -1,21 +1,17 @@
 package main
 
 import (
-	"io"
+	"go-todo-rest-api/app"
 	"log"
 	"net/http"
 )
 
 func main() {
+	app.InitStore()
 
-	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain")
-		w.WriteHeader(http.StatusOK)
+	r := app.NewRouter()
 
-		io.WriteString(w, "Hello world\n")
-	})
-
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", r)
 
 	if err != nil {
 		log.Fatalf("Could not start server: %s\n", err.Error())
