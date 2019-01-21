@@ -16,13 +16,17 @@ type Route struct {
 	Handler Handler
 }
 
-type Router struct {
+type Router interface {
+	http.Handler
+}
+
+type router struct {
 	Routes       []Route
 	DefaultRoute Handler
 }
 
-func New(handler handler.AppHandler) *Router {
-	r := &Router{
+func New(handler handler.AppHandler) Router {
+	r := &router{
 		DefaultRoute: func(ctx *httputils.Context) {
 			ctx.Text(http.StatusNotFound, "Not found")
 		},
@@ -33,14 +37,14 @@ func New(handler handler.AppHandler) *Router {
 	return r
 }
 
-func (a *Router) handle(method string, pattern string, handler Handler) {
+func (a *router) handle(method string, pattern string, handler Handler) {
 	re := regexp.MustCompile(pattern)
 	route := Route{Method: method, Pattern: re, Handler: handler}
 
 	a.Routes = append(a.Routes, route)
 }
 
-func (a *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (a *router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := &httputils.Context{ResponseWriter: w, Request: r}
 
 	for _, rt := range a.Routes {
