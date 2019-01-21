@@ -1,4 +1,4 @@
-package interfaces
+package router
 
 import (
 	"net/http"
@@ -11,6 +11,7 @@ import (
 type Handler func(*httputils.Context)
 
 type Route struct {
+	Method  string
 	Pattern *regexp.Regexp
 	Handler Handler
 }
@@ -20,30 +21,30 @@ type Router struct {
 	DefaultRoute Handler
 }
 
-func NewRouter(handler handler.AppHandler) *Router {
+func New(handler handler.AppHandler) *Router {
 	r := &Router{
 		DefaultRoute: func(ctx *httputils.Context) {
 			ctx.Text(http.StatusNotFound, "Not found")
 		},
 	}
-	r.handle(`^/hello$`, handler.GetHello)
-	r.handle(`^/todos/(\d+)$`, handler.GetTodo)
-	r.handle(`^/todos$`, handler.ListTodos)
+	r.handle(http.MethodGet, `^/$`, handler.GetIndex)
+	r.handle(http.MethodGet, `^/todos/(\d+)$`, handler.GetTodo)
+	r.handle(http.MethodGet, `^/todos$`, handler.ListTodos)
 	return r
 }
 
-func (a *Router) handle(pattern string, handler Handler) {
+func (a *Router) handle(method string, pattern string, handler Handler) {
 	re := regexp.MustCompile(pattern)
-	route := Route{Pattern: re, Handler: handler}
+	route := Route{Method: method, Pattern: re, Handler: handler}
 
 	a.Routes = append(a.Routes, route)
 }
 
 func (a *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ctx := &httputils.Context{Request: r, ResponseWriter: w}
+	ctx := &httputils.Context{ResponseWriter: w, Request: r}
 
 	for _, rt := range a.Routes {
-		if matches := rt.Pattern.FindStringSubmatch(ctx.URL.Path); len(matches) > 0 {
+		if matches := rt.Pattern.FindStringSubmatch(ctx.URL.Path); len(matches) > 0 && rt.Method == ctx.Method {
 			if len(matches) > 1 {
 				ctx.Params = matches[1:]
 			}

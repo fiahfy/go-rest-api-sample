@@ -1,18 +1,18 @@
 package handler
 
 type AppHandler interface {
-	HelloHandler
+	IndexHandler
 	TodoHandler
 }
 
 type appHandler struct {
-	HelloHandler
+	IndexHandler
 	TodoHandler
 }
 
-func NewAppHandler(helloHandler HelloHandler, todoHandler TodoHandler) AppHandler {
+func NewAppHandler(indexHandler IndexHandler, todoHandler TodoHandler) AppHandler {
 	return &appHandler{
-		helloHandler,
+		indexHandler,
 		todoHandler,
 	}
 }

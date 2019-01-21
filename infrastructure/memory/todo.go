@@ -13,9 +13,9 @@ type TodoRepository struct {
 
 func NewTodoRepository() repository.TodoRepository {
 	todos := make(map[int]*model.Todo)
-	todos[1] = &model.Todo{ID: 1}
-	todos[2] = &model.Todo{ID: 2}
-	todos[3] = &model.Todo{ID: 3}
+	todos[1] = &model.Todo{ID: 1, Title: "Task 1"}
+	todos[2] = &model.Todo{ID: 2, Title: "Task 2"}
+	todos[3] = &model.Todo{ID: 3, Title: "Task 3"}
 
 	return &TodoRepository{todos}
 }

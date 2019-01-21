@@ -4,15 +4,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fiahfy/go-todo-rest-api/interfaces"
+	"github.com/fiahfy/go-todo-rest-api/interfaces/router"
 	"github.com/fiahfy/go-todo-rest-api/registry"
 )
 
 func main() {
-	r := registry.NewRegistry()
+	r := registry.New()
 	h := r.NewAppHandler()
 
-	app := interfaces.NewRouter(h)
+	app := router.New(h)
 	err := http.ListenAndServe(":8080", app)
 
 	if err != nil {

@@ -12,12 +12,12 @@ type Registry interface {
 
 type registry struct{}
 
-func NewRegistry() Registry {
+func New() Registry {
 	return &registry{}
 }
 
-func newHelloHandler() handler.HelloHandler {
-	return handler.NewHelloHandler()
+func newIndexHandler() handler.IndexHandler {
+	return handler.NewIndexHandler()
 }
 
 func newTodoHandler() handler.TodoHandler {
@@ -27,7 +27,7 @@ func newTodoHandler() handler.TodoHandler {
 }
 func (r *registry) NewAppHandler() handler.AppHandler {
 	return handler.NewAppHandler(
-		newHelloHandler(),
+		newIndexHandler(),
 		newTodoHandler(),
 	)
 }

@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -25,12 +24,10 @@ func NewTodoHandler(u usecase.TodoUseCase) TodoHandler {
 func (h *todoHandler) GetTodo(ctx *httputils.Context) {
 	id, _ := strconv.Atoi(ctx.Params[0])
 	todo, _ := h.u.Find(id)
-	fmt.Printf("%+v", todo)
-	ctx.Text(http.StatusOK, fmt.Sprintf("Todo %s", ctx.Params[0]))
+	ctx.Json(http.StatusOK, todo)
 }
 
 func (h *todoHandler) ListTodos(ctx *httputils.Context) {
 	todos, _ := h.u.FindAll()
-	fmt.Printf("%+v", todos)
-	ctx.Text(http.StatusOK, fmt.Sprintf("Todo Index"))
+	ctx.Json(http.StatusOK, todos)
 }
