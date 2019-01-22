@@ -36,37 +36,37 @@ func New() Router {
 	}
 }
 
-func (a *router) Handle(method string, pattern string, handler Handler) {
+func (r *router) Handle(method string, pattern string, handler Handler) {
 	reg := regexp.MustCompile(pattern)
 	route := route{method, reg, handler}
 
-	a.routes = append(a.routes, route)
+	r.routes = append(r.routes, route)
 }
 
-func (a *router) HandleDefault(handler Handler) {
-	a.defaultRoute = handler
+func (r *router) HandleDefault(handler Handler) {
+	r.defaultRoute = handler
 }
 
-func (a *router) Get(pattern string, handler Handler) {
-	a.Handle(http.MethodGet, pattern, handler)
+func (r *router) Get(pattern string, handler Handler) {
+	r.Handle(http.MethodGet, pattern, handler)
 }
 
-func (a *router) Post(pattern string, handler Handler) {
-	a.Handle(http.MethodPost, pattern, handler)
+func (r *router) Post(pattern string, handler Handler) {
+	r.Handle(http.MethodPost, pattern, handler)
 }
 
-func (a *router) Put(pattern string, handler Handler) {
-	a.Handle(http.MethodPut, pattern, handler)
+func (r *router) Put(pattern string, handler Handler) {
+	r.Handle(http.MethodPut, pattern, handler)
 }
 
-func (a *router) Delete(pattern string, handler Handler) {
-	a.Handle(http.MethodDelete, pattern, handler)
+func (r *router) Delete(pattern string, handler Handler) {
+	r.Handle(http.MethodDelete, pattern, handler)
 }
 
-func (a *router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	c := &Context{w: w, r: r}
+func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	c := &Context{w: w, r: req}
 
-	for _, rt := range a.routes {
+	for _, rt := range r.routes {
 		if matches := rt.pattern.FindStringSubmatch(c.r.URL.Path); len(matches) > 0 && rt.method == c.r.Method {
 			if len(matches) > 1 {
 				c.Params = matches[1:]
@@ -77,5 +77,5 @@ func (a *router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	a.defaultRoute(c)
+	r.defaultRoute(c)
 }

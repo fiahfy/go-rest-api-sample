@@ -17,6 +17,7 @@ $ docker-compose build
 ```
 $ docker-compose up
 ```
+Serve with `http://localhost:8080/`
 
 #### Enter container with bash
 ```
