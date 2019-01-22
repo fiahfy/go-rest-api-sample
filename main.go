@@ -12,8 +12,13 @@ func main() {
 	r := registry.New()
 	h := r.NewAppHandler()
 
-	app := router.New(h)
-	err := http.ListenAndServe(":8080", app)
+	router := router.New()
+
+	router.Get(`^/$`, h.GetIndex)
+	router.Get(`^/todos/(\d+)$`, h.GetTodo)
+	router.Get(`^/todos$`, h.ListTodos)
+
+	err := http.ListenAndServe(":8080", router)
 
 	if err != nil {
 		log.Fatalf("Could not start server: %s\n", err.Error())

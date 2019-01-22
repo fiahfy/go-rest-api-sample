@@ -3,60 +3,79 @@ package router
 import (
 	"net/http"
 	"regexp"
-
-	"github.com/fiahfy/go-todo-rest-api/interfaces/handler"
-	"github.com/fiahfy/go-todo-rest-api/interfaces/httputils"
 )
 
-type Handler func(*httputils.Context)
+type Handler func(*Context)
 
-type Route struct {
-	Method  string
-	Pattern *regexp.Regexp
-	Handler Handler
+type route struct {
+	method  string
+	pattern *regexp.Regexp
+	handler Handler
 }
 
 type Router interface {
 	http.Handler
+	Handle(method string, pattern string, handler Handler)
+	HandleDefault(handler Handler)
+	Get(pattern string, handler Handler)
+	Post(pattern string, handler Handler)
+	Put(pattern string, handler Handler)
+	Delete(pattern string, handler Handler)
 }
 
 type router struct {
-	Routes       []Route
-	DefaultRoute Handler
+	routes       []route
+	defaultRoute Handler
 }
 
-func New(handler handler.AppHandler) Router {
-	r := &router{
-		DefaultRoute: func(ctx *httputils.Context) {
-			ctx.Text(http.StatusNotFound, "Not found")
+func New() Router {
+	return &router{
+		defaultRoute: func(c *Context) {
+			c.Text(http.StatusNotFound, "Not found")
 		},
 	}
-	r.handle(http.MethodGet, `^/$`, handler.GetIndex)
-	r.handle(http.MethodGet, `^/todos/(\d+)$`, handler.GetTodo)
-	r.handle(http.MethodGet, `^/todos$`, handler.ListTodos)
-	return r
 }
 
-func (a *router) handle(method string, pattern string, handler Handler) {
-	re := regexp.MustCompile(pattern)
-	route := Route{Method: method, Pattern: re, Handler: handler}
+func (a *router) Handle(method string, pattern string, handler Handler) {
+	reg := regexp.MustCompile(pattern)
+	route := route{method, reg, handler}
 
-	a.Routes = append(a.Routes, route)
+	a.routes = append(a.routes, route)
+}
+
+func (a *router) HandleDefault(handler Handler) {
+	a.defaultRoute = handler
+}
+
+func (a *router) Get(pattern string, handler Handler) {
+	a.Handle(http.MethodGet, pattern, handler)
+}
+
+func (a *router) Post(pattern string, handler Handler) {
+	a.Handle(http.MethodPost, pattern, handler)
+}
+
+func (a *router) Put(pattern string, handler Handler) {
+	a.Handle(http.MethodPut, pattern, handler)
+}
+
+func (a *router) Delete(pattern string, handler Handler) {
+	a.Handle(http.MethodDelete, pattern, handler)
 }
 
 func (a *router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ctx := &httputils.Context{ResponseWriter: w, Request: r}
+	c := &Context{w: w, r: r}
 
-	for _, rt := range a.Routes {
-		if matches := rt.Pattern.FindStringSubmatch(ctx.URL.Path); len(matches) > 0 && rt.Method == ctx.Method {
+	for _, rt := range a.routes {
+		if matches := rt.pattern.FindStringSubmatch(c.r.URL.Path); len(matches) > 0 && rt.method == c.r.Method {
 			if len(matches) > 1 {
-				ctx.Params = matches[1:]
+				c.Params = matches[1:]
 			}
 
-			rt.Handler(ctx)
+			rt.handler(c)
 			return
 		}
 	}
 
-	a.DefaultRoute(ctx)
+	a.defaultRoute(c)
 }

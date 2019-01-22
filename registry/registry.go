@@ -25,6 +25,7 @@ func newTodoHandler() handler.TodoHandler {
 	u := usecase.NewTodoUseCase(r)
 	return handler.NewTodoHandler(u)
 }
+
 func (r *registry) NewAppHandler() handler.AppHandler {
 	return handler.NewAppHandler(
 		newIndexHandler(),

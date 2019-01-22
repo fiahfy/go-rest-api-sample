@@ -5,12 +5,12 @@ import (
 	"strconv"
 
 	"github.com/fiahfy/go-todo-rest-api/application/usecase"
-	"github.com/fiahfy/go-todo-rest-api/interfaces/httputils"
+	"github.com/fiahfy/go-todo-rest-api/interfaces/router"
 )
 
 type TodoHandler interface {
-	GetTodo(ctx *httputils.Context)
-	ListTodos(ctx *httputils.Context)
+	GetTodo(c *router.Context)
+	ListTodos(c *router.Context)
 }
 
 type todoHandler struct {
@@ -21,13 +21,13 @@ func NewTodoHandler(u usecase.TodoUseCase) TodoHandler {
 	return &todoHandler{u}
 }
 
-func (h *todoHandler) GetTodo(ctx *httputils.Context) {
-	id, _ := strconv.Atoi(ctx.Params[0])
+func (h *todoHandler) GetTodo(c *router.Context) {
+	id, _ := strconv.Atoi(c.Params[0])
 	todo, _ := h.u.Find(id)
-	ctx.Json(http.StatusOK, todo)
+	c.Json(http.StatusOK, todo)
 }
 
-func (h *todoHandler) ListTodos(ctx *httputils.Context) {
+func (h *todoHandler) ListTodos(c *router.Context) {
 	todos, _ := h.u.FindAll()
-	ctx.Json(http.StatusOK, todos)
+	c.Json(http.StatusOK, todos)
 }
