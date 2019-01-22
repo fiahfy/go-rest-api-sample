@@ -1,5 +1,7 @@
 # go-todo-rest-api
 
+> Simple RESTful API with Only Golang Standard Library.
+
 ### Development
 ```
 $ go get -d github.com/fiahfy/go-todo-rest-api

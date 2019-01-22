@@ -17,6 +17,9 @@ func main() {
 	router.Get(`^/$`, h.GetIndex)
 	router.Get(`^/todos/(\d+)$`, h.GetTodo)
 	router.Get(`^/todos$`, h.ListTodos)
+	router.Post(`^/todos$`, h.PostTodo)
+	router.Put(`^/todos/(\d+)$`, h.PutTodo)
+	router.Delete(`^/todos/(\d+)$`, h.DeleteTodo)
 
 	err := http.ListenAndServe(":8080", router)
 

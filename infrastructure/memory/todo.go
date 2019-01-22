@@ -33,3 +33,30 @@ func (r *TodoRepository) FindAll() ([]*model.Todo, error) {
 	sort.Slice(todos, func(i, j int) bool { return todos[i].ID < todos[j].ID })
 	return todos, nil
 }
+
+func (r *TodoRepository) Create(m *model.Todo) (*model.Todo, error) {
+	id := 0
+	for k := range r.todos {
+		if k > id {
+			id = k
+		}
+	}
+	id++
+	m.ID = id
+	r.todos[id] = m
+	return m, nil
+}
+
+func (r *TodoRepository) Update(m *model.Todo) error {
+	_, ok := r.todos[m.ID]
+	if !ok {
+		return nil
+	}
+	r.todos[m.ID] = m
+	return nil
+}
+
+func (r *TodoRepository) Delete(id int) error {
+	delete(r.todos, id)
+	return nil
+}
