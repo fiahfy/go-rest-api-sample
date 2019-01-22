@@ -1,11 +1,11 @@
-# go-todo-rest-api
+# go-rest-api-sample
 
 > Simple RESTful API with Only Golang Standard Library.
 
 ### Development
 ```
-$ go get -d github.com/fiahfy/go-todo-rest-api
-$ cd $GOPATH/src/github.com/fiahfy/go-todo-rest-api
+$ go get -d github.com/fiahfy/go-rest-api-sample
+$ cd $GOPATH/src/github.com/fiahfy/go-rest-api-sample
 ```
 
 #### Build image
@@ -20,5 +20,5 @@ $ docker-compose up
 
 #### Enter container with bash
 ```
-$ docker exec -it go-todo-rest-api bash
+$ docker exec -it go-rest-api-sample bash
 ```

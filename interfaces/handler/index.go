@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/fiahfy/go-todo-rest-api/interfaces/router"
+	"github.com/fiahfy/go-rest-api-sample/interfaces/router"
 )
 
 type IndexHandler interface {
@@ -20,6 +20,6 @@ func (h *indexHandler) GetIndex(c *router.Context) {
 	c.Json(http.StatusOK, map[string]interface{}{
 		"name":        "Todo API",
 		"description": "Simple RESTful API with Only Golang Standard Library",
-		"homepage":    "https://github.com/fiahfy/go-todo-rest-api",
+		"homepage":    "https://github.com/fiahfy/go-rest-api-sample",
 	})
 }

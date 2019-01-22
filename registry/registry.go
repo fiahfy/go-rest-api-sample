@@ -1,9 +1,9 @@
 package registry
 
 import (
-	"github.com/fiahfy/go-todo-rest-api/application/usecase"
-	"github.com/fiahfy/go-todo-rest-api/infrastructure/memory"
-	"github.com/fiahfy/go-todo-rest-api/interfaces/handler"
+	"github.com/fiahfy/go-rest-api-sample/application/usecase"
+	"github.com/fiahfy/go-rest-api-sample/infrastructure/memory"
+	"github.com/fiahfy/go-rest-api-sample/interfaces/handler"
 )
 
 type Registry interface {

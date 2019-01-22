@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/fiahfy/go-todo-rest-api/domain/model"
+	"github.com/fiahfy/go-rest-api-sample/domain/model"
 )
 
 type TodoRepository interface {

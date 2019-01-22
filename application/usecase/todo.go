@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/fiahfy/go-todo-rest-api/domain/model"
-	"github.com/fiahfy/go-todo-rest-api/domain/repository"
+	"github.com/fiahfy/go-rest-api-sample/domain/model"
+	"github.com/fiahfy/go-rest-api-sample/domain/repository"
 )
 
 type TodoUseCase interface {

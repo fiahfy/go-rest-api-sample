@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/fiahfy/go-todo-rest-api/application/usecase"
-	"github.com/fiahfy/go-todo-rest-api/domain/model"
-	"github.com/fiahfy/go-todo-rest-api/interfaces/router"
+	"github.com/fiahfy/go-rest-api-sample/application/usecase"
+	"github.com/fiahfy/go-rest-api-sample/domain/model"
+	"github.com/fiahfy/go-rest-api-sample/interfaces/router"
 )
 
 type TodoHandler interface {

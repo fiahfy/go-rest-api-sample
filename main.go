@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fiahfy/go-todo-rest-api/interfaces/router"
-	"github.com/fiahfy/go-todo-rest-api/registry"
+	"github.com/fiahfy/go-rest-api-sample/interfaces/router"
+	"github.com/fiahfy/go-rest-api-sample/registry"
 )
 
 func main() {
